@@ -1,0 +1,6 @@
+# Optional terminal UI and YAML support
+rich>=13.7
+PyYAML>=6.0
+pytest>=8.0
+fastapi>=0.110
+uvicorn[standard]>=0.29

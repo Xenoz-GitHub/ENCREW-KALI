@@ -1,0 +1,17 @@
+output_directory: ~/.local/share/kstt/cases
+database: ~/.local/share/kstt/kstt.sqlite3
+timeout: 30
+concurrency: 4
+logging_level: INFO
+scan_profiles:
+  quick: "-T4 --top-ports 100"
+  standard: "-T3 -sV --top-ports 1000"
+  comprehensive: "-T3 -sV -O -p-"
+tools: {}
+monitor:
+  host: 127.0.0.1
+  port: 8080
+  base_url: http://127.0.0.1:8080
+  expires_hours: 24
+  retention_days: 7
+  location_enabled: true
