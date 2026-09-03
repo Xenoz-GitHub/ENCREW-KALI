@@ -6,9 +6,13 @@ KSTT is a modular, CLI-first orchestration framework for CTFs, labs, intentional
 
 KSTT is intentionally supported only on Kali Linux. Windows, macOS, WSL distributions that do not identify as Kali, and other Linux distributions are rejected by both the CLI and installer. Use a Kali Linux VM or native Kali installation for development and operation.
 
-## Install
+## Install On Kali Linux
+
+From a fresh Kali Linux terminal:
 
 ```bash
+git clone https://github.com/Xenoz-GitHub/ENCREW-KALI.git
+cd ENCREW-KALI
 chmod +x install.sh
 sudo ./install.sh
 kstt --help
