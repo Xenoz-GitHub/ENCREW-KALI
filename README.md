@@ -11,7 +11,7 @@ kstt --help
 kstt doctor
 ```
 
-The installer creates a virtual environment and a global-user command at `~/.local/bin/kstt`. Add that directory to `PATH` if needed. It installs the optional monitor dependencies as well.
+The installer creates a virtual environment and installs `kstt` to `/usr/local/bin` when run with `sudo`, or `~/.local/bin` for a non-root user. Add the selected directory to `PATH` if needed. It installs the optional monitor dependencies as well.
 
 For development, use `PYTHONPATH=src python -m kstt --help` or install with `python -m pip install -e .`. Add monitor dependencies with `python -m pip install -e '.[monitor]'`.
 

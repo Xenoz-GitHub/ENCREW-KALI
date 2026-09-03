@@ -14,12 +14,17 @@ PY
 "$ROOT/.venv/bin/pip" install -e "$ROOT[monitor]"
 mkdir -p "$HOME/.config/kstt" "$HOME/.local/share/kstt/cases"
 if [ ! -f "$HOME/.config/kstt/config.yaml" ]; then cp "$ROOT/config/config.yaml" "$HOME/.config/kstt/config.yaml"; fi
-mkdir -p "$HOME/.local/bin"
-ln -sf "$ROOT/.venv/bin/kstt" "$HOME/.local/bin/kstt"
+if [ "$(id -u)" -eq 0 ]; then
+    BIN_DIR="/usr/local/bin"
+else
+    BIN_DIR="$HOME/.local/bin"
+    mkdir -p "$BIN_DIR"
+fi
+ln -sf "$ROOT/.venv/bin/kstt" "$BIN_DIR/kstt"
 "$ROOT/.venv/bin/kstt" db-init
 cat <<'BANNER'
 
     ENCRYPTED CREW TOOLS KALI
     Installation complete. KSTT is ready.
 BANNER
-printf 'KSTT installed. Ensure %s is on PATH.\n' "$HOME/.local/bin"
+printf 'KSTT installed. Ensure %s is on PATH.\n' "$BIN_DIR"
