@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import json
+import os
 import subprocess
 import sys
 import urllib.error
@@ -12,8 +13,13 @@ REPOSITORY = "Xenoz-GitHub/ENCREW-KALI"
 BRANCH = "main"
 
 
+def source_directory() -> Path:
+    configured = os.environ.get("KSTT_SOURCE_DIR")
+    return Path(configured).expanduser() if configured else Path(__file__).resolve().parents[2]
+
+
 def local_revision(root: Path | None = None) -> str | None:
-    directory = root or Path(__file__).resolve().parents[2]
+    directory = root or source_directory()
     try:
         result = subprocess.run(["git", "-C", str(directory), "rev-parse", "HEAD"], capture_output=True, text=True, timeout=5, check=False)
     except (OSError, subprocess.SubprocessError):
@@ -33,7 +39,7 @@ def check_for_update(root: Path | None = None, timeout: int = 3) -> dict[str, st
 
 
 def apply_update(root: Path | None = None, repair: bool = False) -> dict[str, str | int]:
-    directory = root or Path(__file__).resolve().parents[2]
+    directory = root or source_directory()
     if not (directory / ".git").exists():
         raise RuntimeError("self-update requires a Git checkout")
     if repair:
