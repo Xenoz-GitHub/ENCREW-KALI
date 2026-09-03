@@ -30,6 +30,20 @@ BANNER = r"""
 """
 
 
+def require_kali_linux() -> None:
+    if sys.platform != "linux":
+        raise SystemExit("KSTT runs only on Kali Linux. Windows and other operating systems are not supported.")
+    release = Path("/etc/os-release")
+    values: dict[str, str] = {}
+    if release.exists():
+        for line in release.read_text(encoding="utf-8").splitlines():
+            if "=" in line:
+                key, value = line.split("=", 1)
+                values[key] = value.strip().strip('"')
+    if values.get("ID") != "kali":
+        raise SystemExit("KSTT runs only on Kali Linux. Kali was not detected in /etc/os-release.")
+
+
 def parser() -> argparse.ArgumentParser:
     root = argparse.ArgumentParser(prog="kstt", description="Kali Security Testing Toolkit for authorized environments")
     root.add_argument("--version", action="version", version=__version__)
@@ -124,6 +138,7 @@ def monitor_cli(args: argparse.Namespace, config: dict, db: Database, output) ->
 
 
 def main(argv: list[str] | None = None) -> None:
+    require_kali_linux()
     raw = list(sys.argv[1:] if argv is None else argv)
     # Accept global presentation flags after a subcommand for shell-friendly usage.
     for flag in ("--quiet", "--json", "--text", "--csv"):

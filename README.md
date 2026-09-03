@@ -2,16 +2,22 @@
 
 KSTT is a modular, CLI-first orchestration framework for CTFs, labs, intentionally vulnerable applications, and explicitly authorized assessments. It stores targets and case metadata in SQLite and never installs or runs external security tools automatically.
 
+## Platform
+
+KSTT is intentionally supported only on Kali Linux. Windows, macOS, WSL distributions that do not identify as Kali, and other Linux distributions are rejected by both the CLI and installer. Use a Kali Linux VM or native Kali installation for development and operation.
+
 ## Install
 
 ```bash
 chmod +x install.sh
-./install.sh
+sudo ./install.sh
 kstt --help
 kstt doctor
 ```
 
-The installer creates a virtual environment and installs `kstt` to `/usr/local/bin` when run with `sudo`, or `~/.local/bin` for a non-root user. Add the selected directory to `PATH` if needed. It installs the optional monitor dependencies as well.
+This is the first-time Kali setup. With `sudo`, the installer copies KSTT to `/opt/kstt`, creates an isolated Python environment there, and installs the global command at `/usr/local/bin/kstt`. It also installs the optional monitor dependencies and initializes the database. For a user-only install on Kali, run `./install.sh`; that uses `~/.local/share/kstt` and `~/.local/bin/kstt`.
+
+If `kstt` is not found after a user-only install, run `export PATH="$HOME/.local/bin:$PATH"` or open a new terminal. On Kali, avoid installing into the system Python directly; the installer uses a virtual environment for this reason.
 
 For development, use `PYTHONPATH=src python -m kstt --help` or install with `python -m pip install -e .`. Add monitor dependencies with `python -m pip install -e '.[monitor]'`.
 
